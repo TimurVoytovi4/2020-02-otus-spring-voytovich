@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns="http://www.springframework.org/schema/beans"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="userInterface" class="ru.otus.homework1.UserInterface">
+        <constructor-arg name="person" ref="person"/>
+    </bean>
+    <bean id="questionaire" class="ru.otus.homework1.Questionnaire"/>
+    <bean id="person" class="ru.otus.homework1.domain.Person">
+        <property name="data" ref="questionaire"/>
+    </bean>
+</beans>
+

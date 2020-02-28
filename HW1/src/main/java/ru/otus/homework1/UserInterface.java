@@ -1,32 +1,41 @@
 package ru.otus.homework1;
 
-import com.opencsv.CSVReader;
+import org.springframework.core.io.Resource;
+import ru.otus.homework1.domain.Person;
 
-import java.io.FileReader;
-import java.util.Arrays;
+import java.io.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 public class UserInterface {
     Scanner sc = new Scanner(System.in);
-    CSVReader reader = new CSVReader(new FileReader("HW1/src/main/resources/questionary.csv"));
-    List<String[]> allRows = reader.readAll();
+    List<String> allRows = new ArrayList<>();;
     Person p1;
 
-    public UserInterface() throws Exception {
+    public UserInterface(Person person) {
+        p1 = person;
     }
 
-    public void start() {
+    public void setReader(Resource resource) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(resource.getInputStream()));
+        String line;
+        while ((line = br.readLine())!= null)
+            allRows.add(line);
+    }
+
+    public void start(){
         System.out.println("Ваше имя и фамилия: ");
-        p1 = new Person(sc.next(), sc.next());
+        p1.setName(sc.next());
+        p1.setLastName(sc.next());
         testing();
     }
 
     private void testing() {
-        for (String[] allRow : allRows) {
+        for (String allRow : allRows) {
             try {
                 questioned(allRow);
-            }catch (QuestionnaireException e){
+            } catch (QuestionnaireException e) {
                 System.out.println(e.getMessage());
                 questioned(allRow);
             }
@@ -34,14 +43,14 @@ public class UserInterface {
         result();
     }
 
-    private void questioned(String[] allRow) {
-        System.out.println(Arrays.toString(allRow));
-        p1.data.setAppraisal(sc.nextInt());
+    private void questioned(String allRow) {
+        System.out.println(allRow);
+        p1.getData().setAppraisal(sc.nextInt());
     }
 
     private void result() {
-            System.out.println("Уважаемый" + " " + p1.getName() + " " + p1.getLastName());
-            System.out.println(p1.data.getAppraisal());
-            System.out.println("Всего хорошего.");
+        System.out.println("Уважаемый" + " " + p1.getName() + " " + p1.getLastName());
+        System.out.println(p1.getData().getAppraisal());
+        System.out.println("Всего хорошего.");
     }
 }
