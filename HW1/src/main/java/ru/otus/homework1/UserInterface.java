@@ -10,7 +10,7 @@ import java.util.Scanner;
 
 public class UserInterface {
     Scanner sc = new Scanner(System.in);
-    List<String> allRows = new ArrayList<>();;
+    List<String> allRows = new ArrayList<>();
     Person p1;
 
     public UserInterface(Person person) {
