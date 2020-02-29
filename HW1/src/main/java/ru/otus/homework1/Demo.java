@@ -9,7 +9,8 @@ public class Demo {
         ApplicationContext context = new ClassPathXmlApplicationContext("/spring-context.xml");
         Resource resource = context.getResource("classpath:questionary.csv");
         UserInterface ui = context.getBean(UserInterface.class);
-        ui.setReader(resource);
+        Questionnaire questionnaire = context.getBean(Questionnaire.class);
+        questionnaire.setQuestions(resource);
         ui.start();
     }
 }

@@ -1,27 +1,15 @@
 package ru.otus.homework1;
 
-import org.springframework.core.io.Resource;
 import ru.otus.homework1.domain.Person;
 
-import java.io.*;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
 public class UserInterface {
     Scanner sc = new Scanner(System.in);
-    List<String> allRows = new ArrayList<>();
     Person p1;
 
     public UserInterface(Person person) {
         p1 = person;
-    }
-
-    public void setReader(Resource resource) throws IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(resource.getInputStream()));
-        String line;
-        while ((line = br.readLine())!= null)
-            allRows.add(line);
     }
 
     public void start(){
@@ -32,7 +20,7 @@ public class UserInterface {
     }
 
     private void testing() {
-        for (String allRow : allRows) {
+        for (String allRow : p1.getData().getQuestions()) {
             try {
                 questioned(allRow);
             } catch (QuestionnaireException e) {

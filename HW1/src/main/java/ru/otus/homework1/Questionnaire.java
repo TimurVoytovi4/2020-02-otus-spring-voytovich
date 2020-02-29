@@ -1,8 +1,21 @@
 package ru.otus.homework1;
 
 
+import org.springframework.core.io.Resource;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
+
 public class Questionnaire {
     private int mark;
+    private List<String> questions;
+
+    public Questionnaire() {
+        questions = new ArrayList<>();
+    }
 
     public String getAppraisal() {
         if (mark == 10) {
@@ -10,6 +23,17 @@ public class Questionnaire {
         } else {
             return "Вы не добросовестный студент";
         }
+    }
+
+    public List<String> getQuestions() {
+        return questions;
+    }
+
+    public void setQuestions(Resource resource) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(resource.getInputStream()));
+        String line;
+        while ((line = br.readLine())!= null)
+            getQuestions().add(line);
     }
 
     public void setAppraisal(int value) {
