@@ -2,15 +2,12 @@ package ru.otus.homework1;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-import org.springframework.core.io.Resource;
 
 public class Demo {
-    public static void main(String[] args) throws Exception {
-        ApplicationContext context = new ClassPathXmlApplicationContext("/spring-context.xml");
-        Resource resource = context.getResource("classpath:questionary.csv");
+    public static void main(String[] args){
+        ApplicationContext context = new ClassPathXmlApplicationContext("/spring-context.xml" );
         UserInterface ui = context.getBean(UserInterface.class);
-        Questionnaire questionnaire = context.getBean(Questionnaire.class);
-        questionnaire.setQuestions(resource);
+
         ui.start();
     }
 }
