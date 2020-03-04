@@ -1,31 +1,31 @@
 package ru.otus.homework1;
 
-import ru.otus.homework1.domain.Person;
-
-import java.util.Scanner;
+import ru.otus.homework1.Exceptions.QuestionnaireException;
+import ru.otus.homework1.service.IOService;
 
 public class UserInterface {
-    Scanner sc = new Scanner(System.in);
-    Person p1;
+    IOService ioService;
+    Test test;
 
-    public UserInterface(Person person) {
-        p1 = person;
+    public UserInterface(IOService ioService, Test test) {
+        this.ioService = ioService;
+        this.test = test;
     }
 
     public void start(){
         System.out.println("Ваше имя и фамилия: ");
-        p1.setName(sc.next());
-        p1.setLastName(sc.next());
+        test.person.setName(ioService.input());
+        test.person.setLastName(ioService.input());
         testing();
     }
 
     private void testing() {
-        for (String allRow : p1.getData().getQuestions()) {
+        for (String question : test.getQuestionnaire().getQuestions()) {
             try {
-                questioned(allRow);
+                questioned(question);
             } catch (QuestionnaireException e) {
                 System.out.println(e.getMessage());
-                questioned(allRow);
+                questioned(question);
             }
         }
         result();
@@ -33,12 +33,13 @@ public class UserInterface {
 
     private void questioned(String allRow) {
         System.out.println(allRow);
-        p1.getData().setAppraisal(sc.nextInt());
+        test.setMark(ioService.inputInt());
     }
 
     private void result() {
-        System.out.println("Уважаемый" + " " + p1.getName() + " " + p1.getLastName());
-        System.out.println(p1.getData().getAppraisal());
+        System.out.println("Уважаемый" + " " + test.person.getName() + " " + test.person.getLastName());
+        test.setResult();
+        System.out.println(test.person.getAppraisal());
         System.out.println("Всего хорошего.");
     }
 }

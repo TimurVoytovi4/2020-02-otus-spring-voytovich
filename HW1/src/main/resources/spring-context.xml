@@ -1,15 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns="http://www.springframework.org/schema/beans"
+       xmlns:util="http://www.springframework.org/schema/util"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans.xsd">
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/util
+        https://www.springframework.org/schema/util/spring-util.xsd">
+
+    <util:constant id="inputStream" static-field="java.lang.System.in"/>
+
+    <bean id="questions" class="ru.otus.homework1.Questions"/>
+
+    <bean id="person" class="ru.otus.homework1.domain.Person"/>
+
+    <bean id="test" class="ru.otus.homework1.Test">
+        <constructor-arg name="questionnaire" ref="questions"/>
+        <property name="person" ref="person"/>
+    </bean>
+
+    <bean id="scanner" class="java.util.Scanner">
+        <constructor-arg ref="inputStream"/>
+    </bean>
+
+    <bean id="input" class="ru.otus.homework1.service.IOServiceImpl">
+        <constructor-arg name="scanner" ref="scanner"/>
+    </bean>
 
     <bean id="userInterface" class="ru.otus.homework1.UserInterface">
-        <constructor-arg name="person" ref="person"/>
-    </bean>
-    <bean id="questionaire" class="ru.otus.homework1.Questionnaire"/>
-    <bean id="person" class="ru.otus.homework1.domain.Person">
-        <property name="data" ref="questionaire"/>
+        <constructor-arg name="ioService" ref="input"/>
+        <constructor-arg name="test" ref="test"/>
     </bean>
 </beans>
 
