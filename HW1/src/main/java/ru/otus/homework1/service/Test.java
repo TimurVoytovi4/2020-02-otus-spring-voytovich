@@ -1,16 +1,17 @@
-package ru.otus.homework1;
+package ru.otus.homework1.service;
 
 import lombok.Getter;
-import lombok.Setter;
-import ru.otus.homework1.Exceptions.QuestionnaireException;
-import ru.otus.homework1.domain.Person;
+import ru.otus.homework1.exceptions.QuestionnaireException;
+import ru.otus.homework1.dao.PersonDao;
 
-@Getter
-@Setter
 public class Test {
-    Questionnaire questionnaire;
-    Person person;
+    @Getter
+    private Questionnaire questionnaire;
+    @Getter
+    private PersonDao dao;
+    @Getter
     private int mark;
+
     private final int positiveMark;
     private final String negative;
     private final String positive;
@@ -22,8 +23,9 @@ public class Test {
         positive = "Вы добросовестный студент";
     }
 
-    public Test(Questionnaire questionnaire) {
+    public Test(Questionnaire questionnaire, PersonDao dao) {
         this.questionnaire = questionnaire;
+        this.dao = dao;
     }
 
     public void setMark(int value) {
@@ -38,8 +40,8 @@ public class Test {
     }
 
     public void setResult() {
-        if (mark!= positiveMark)
-            person.setAppraisal(negative);
-        else person.setAppraisal(positive);
+        if (mark != positiveMark)
+            dao.findPerson().setAppraisal(negative);
+        else dao.findPerson().setAppraisal(positive);
     }
 }

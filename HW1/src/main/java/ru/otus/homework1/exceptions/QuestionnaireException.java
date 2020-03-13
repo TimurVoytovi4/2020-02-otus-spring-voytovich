@@ -1,4 +1,4 @@
-package ru.otus.homework1.Exceptions;
+package ru.otus.homework1.exceptions;
 
 public class QuestionnaireException extends RuntimeException {
     public QuestionnaireException() {

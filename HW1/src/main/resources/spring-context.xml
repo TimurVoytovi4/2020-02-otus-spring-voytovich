@@ -8,14 +8,18 @@
         https://www.springframework.org/schema/util/spring-util.xsd">
 
     <util:constant id="inputStream" static-field="java.lang.System.in"/>
+    <util:constant id="outputStream" static-field="java.lang.System.out"/>
 
-    <bean id="questions" class="ru.otus.homework1.Questions"/>
+    <bean id="questions" class="ru.otus.homework1.service.Questions"/>
 
     <bean id="person" class="ru.otus.homework1.domain.Person"/>
+    <bean id="personDao" class="ru.otus.homework1.dao.PersonDaoImpl">
+        <constructor-arg ref="person"/>
+    </bean>
 
-    <bean id="test" class="ru.otus.homework1.Test">
-        <constructor-arg name="questionnaire" ref="questions"/>
-        <property name="person" ref="person"/>
+    <bean id="test" class="ru.otus.homework1.service.Test">
+        <constructor-arg ref="questions"/>
+        <constructor-arg ref="personDao"/>
     </bean>
 
     <bean id="scanner" class="java.util.Scanner">
@@ -23,12 +27,13 @@
     </bean>
 
     <bean id="input" class="ru.otus.homework1.service.IOServiceImpl">
-        <constructor-arg name="scanner" ref="scanner"/>
+        <constructor-arg ref="scanner"/>
+        <constructor-arg ref="outputStream"/>
     </bean>
 
-    <bean id="userInterface" class="ru.otus.homework1.UserInterface">
-        <constructor-arg name="ioService" ref="input"/>
-        <constructor-arg name="test" ref="test"/>
+    <bean id="userInterface" class="ru.otus.homework1.service.UserInterface">
+        <constructor-arg ref="input"/>
+        <constructor-arg ref="test"/>
     </bean>
 </beans>
 

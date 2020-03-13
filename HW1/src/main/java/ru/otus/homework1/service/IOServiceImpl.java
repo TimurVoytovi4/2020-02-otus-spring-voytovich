@@ -1,25 +1,16 @@
 package ru.otus.homework1.service;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
+import java.io.PrintStream;
 import java.util.Scanner;
 
+@AllArgsConstructor
+@Getter
 public class IOServiceImpl implements IOService {
+
     private Scanner scanner;
+    private PrintStream outStream;
 
-    public IOServiceImpl(Scanner scanner) {
-        this.scanner = scanner;
-    }
-
-    public IOServiceImpl(String s) {
-
-    }
-
-    @Override
-    public String input() {
-        return scanner.next();
-    }
-
-    @Override
-    public int inputInt() {
-        return scanner.nextInt();
-    }
 }

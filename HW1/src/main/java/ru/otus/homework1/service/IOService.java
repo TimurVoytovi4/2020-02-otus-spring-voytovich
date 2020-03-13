@@ -1,6 +1,9 @@
 package ru.otus.homework1.service;
 
+import java.io.PrintStream;
+import java.util.Scanner;
+
 public interface IOService {
-    String input();
-    int inputInt();
+    PrintStream getOutStream();
+    Scanner getScanner();
 }

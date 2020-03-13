@@ -2,6 +2,7 @@ package ru.otus.homework1;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import ru.otus.homework1.service.UserInterface;
 
 public class Demo {
     public static void main(String[] args){

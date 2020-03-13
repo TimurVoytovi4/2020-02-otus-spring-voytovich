@@ -1,4 +1,4 @@
-package ru.otus.homework1;
+package ru.otus.homework1.service;
 
 import java.util.List;
 

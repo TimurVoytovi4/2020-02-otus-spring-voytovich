@@ -1,4 +1,4 @@
-package ru.otus.homework1;
+package ru.otus.homework1.service;
 
 
 import lombok.Getter;
@@ -11,7 +11,6 @@ import java.util.stream.Collectors;
 
 
 public class Questions implements Questionnaire {
-
     @Getter
     private List<String> questions;
 
