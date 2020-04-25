@@ -1,9 +1,11 @@
 package ru.otus.homework2.service;
 
-import org.springframework.context.MessageSource;
+import ru.otus.homework2.domain.Person;
 
 import java.util.Locale;
 
 public interface CheckerService {
-    void setResult(MessageSource source, Locale locale);
+    void setResult(Person person, Locale locale);
+
+    void setMark(int value);
 }
