@@ -8,15 +8,13 @@ import ru.otus.homework2.dao.QuestionDao;
 import ru.otus.homework2.domain.Person;
 import ru.otus.homework2.exceptions.QuestionnaireException;
 
-import java.util.List;
 import java.util.Locale;
 
 @Service
 @RequiredArgsConstructor
 public class UserInterface {
     private Locale locale;
-    private final List<Locale> locales;
-    private final InteractionService ioService;
+    private final IOService ioService;
     private final CheckerService checker;
     private final QuestionDao questionDao;
     private final PersonDao personDao;
@@ -24,43 +22,48 @@ public class UserInterface {
 
     public void start() {
         languageSelection();
-        ioService.printString(messageSource.getMessage("acquaintance", null, locale));
-        personDao.findPerson().setName(ioService.readString());
-        personDao.findPerson().setLastName(ioService.readString());
+        ioService.printString(messageSource.getMessage("acquaintance", null, locale)+"\n");
+        personDao.storePerson(ioService.readString(), ioService.readString());
         testing();
     }
 
     private void languageSelection() {
-        ioService.printString(messageSource.getMessage("language", null, Locale.getDefault()));
-        switch (Integer.parseInt(ioService.readString())){
-            case 1:
-                locale = locales.get(0);
-                break;
-            case 2:
-                locale = locales.get(1);
-                break;
+        try {
+            ioService.printString(messageSource.getMessage("language", null, Locale.getDefault()));
+            questionDao.getLocales().forEach(ioService::printString);
+            String val = ioService.readString();
+            if (questionDao.getLocales().contains(val)) {
+                locale = new Locale(val, val.toUpperCase());
+            }else {
+                throw new QuestionnaireException(messageSource.getMessage("mistake", null, locale));
+            }
+        } catch (QuestionnaireException e) {
+            ioService.printString(e.getMessage());
+            languageSelection();
         }
     }
 
     private void testing() {
         for (String question : questionDao.getQuestions(locale.getLanguage())) {
-            try {
-                askQuestion(question);
-            } catch (QuestionnaireException e) {
-                ioService.printString(e.getMessage());
-                askQuestion(question);
-            }
+            askQuestion(question);
         }
         result();
     }
 
     private void askQuestion(String question) {
         ioService.printString(question);
-        int value = Integer.parseInt(ioService.readString());
-        if (value > 2 || value < 1) {
-            throw new QuestionnaireException(messageSource.getMessage("mistake", null, locale));
-        } else
-            checker.setMark(value);
+        try {
+            int value = Integer.parseInt(ioService.readString());
+            if (value > 2 || value < 1) {
+                throw new QuestionnaireException(messageSource.getMessage("mistake", null, locale));
+            } else
+                checker.setMark(value);
+        } catch (QuestionnaireException e) {
+            ioService.printString(e.getMessage());
+            askQuestion(question);
+        } catch (Exception e) {
+            askQuestion(question);
+        }
     }
 
     private void result() {

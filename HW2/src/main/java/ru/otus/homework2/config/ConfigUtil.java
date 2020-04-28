@@ -6,7 +6,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
-import ru.otus.homework2.domain.Person;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -16,12 +15,6 @@ import java.util.stream.Collectors;
 
 @Configuration
 public class ConfigUtil {
-    private List<Locale> locales;
-
-    @Bean
-    public Person createPerson() {
-        return new Person();
-    }
 
     @Bean
     public static PropertySourcesPlaceholderConfigurer placeholderConfigurer() {
@@ -39,21 +32,12 @@ public class ConfigUtil {
     @Bean
     public Map<String, List<String>> setParams(@Value("#{${valuesMap}}") Map<String, String> val) {
         Map<String, List<String>> map = new HashMap<>();
-        locales = new LinkedList<>();
-        val.forEach((key, value) -> {
-            map.put(key, new BufferedReader(new InputStreamReader(Objects.requireNonNull(this.getClass()
-                    .getClassLoader()
-                    .getResourceAsStream(value))))
-                    .lines()
-                    .collect(Collectors.toList()));
-            locales.add(new Locale(key, key.toUpperCase()));
-        });
+        val.forEach((key, value) -> map.put(key, new BufferedReader(new InputStreamReader(Objects.requireNonNull(this.getClass()
+                .getClassLoader()
+                .getResourceAsStream(value))))
+                .lines()
+                .collect(Collectors.toList())));
         return map;
-    }
-
-    @Bean
-    public List<Locale> setLocales() {
-        return locales;
     }
 
     @Bean

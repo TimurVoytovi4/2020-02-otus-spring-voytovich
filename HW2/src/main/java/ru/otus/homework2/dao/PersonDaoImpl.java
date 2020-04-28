@@ -5,13 +5,13 @@ import ru.otus.homework2.domain.Person;
 
 @Repository
 public class PersonDaoImpl implements PersonDao {
-    private final Person person;
-
-    public PersonDaoImpl(Person person) {
-        this.person = person;
-    }
+    private Person person;
 
     public Person findPerson() {
         return person;
+    }
+
+    public void storePerson(String name, String lastName) {
+        person = new Person(name,lastName);
     }
 }

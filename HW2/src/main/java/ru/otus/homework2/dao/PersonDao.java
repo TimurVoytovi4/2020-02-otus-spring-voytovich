@@ -4,4 +4,5 @@ import ru.otus.homework2.domain.Person;
 
 public interface PersonDao {
     Person findPerson();
+    void storePerson(String name, String lastName);
 }

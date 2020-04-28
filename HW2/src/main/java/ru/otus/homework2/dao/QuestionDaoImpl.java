@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 
 @Repository
@@ -15,5 +16,9 @@ public class QuestionDaoImpl implements QuestionDao {
 
     public List<String> getQuestions(String locale) {
         return questions.get(locale);
+    }
+
+    public Set<String> getLocales() {
+        return questions.keySet();
     }
 }

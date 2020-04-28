@@ -10,4 +10,9 @@ public class Person {
     private String name;
     private String lastName;
     private String appraisal;
+
+    public Person(String name, String lastName) {
+        this.name = name;
+        this.lastName = lastName;
+    }
 }
