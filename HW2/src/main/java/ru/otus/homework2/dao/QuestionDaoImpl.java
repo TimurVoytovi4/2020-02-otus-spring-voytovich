@@ -4,6 +4,7 @@ package ru.otus.homework2.dao;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import ru.otus.homework2.config.LocaleConfig;
+import ru.otus.homework2.exceptions.QuestionsLoadingException;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -18,10 +19,12 @@ public class QuestionDaoImpl implements QuestionDao {
     private final LocaleConfig config;
 
     public List<String> getQuestions() {
-        return new BufferedReader(new InputStreamReader(Objects.requireNonNull(this.getClass()
+        try (var br = new BufferedReader(new InputStreamReader(Objects.requireNonNull(this.getClass()
                 .getClassLoader()
-                .getResourceAsStream(config.getQuestionsFile()))))
-                .lines()
-                .collect(Collectors.toList());
+                .getResourceAsStream(config.getQuestionsFile()))))) {
+            return br.lines().collect(Collectors.toList());
+        } catch (Exception e) {
+            throw new QuestionsLoadingException(e);
+        }
     }
 }
